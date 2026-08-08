@@ -1,0 +1,23 @@
+html,
+body {
+  margin: 0;
+  height: 100%;
+  background: #000;
+  overflow: hidden;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#app {
+  width: 100%;
+  height: 100%;
+  /* keep FIT from ever upscaling past the native design resolution
+     (src/config/constants.js GAME_WIDTH/GAME_HEIGHT) — only shrink to fit
+     smaller viewports, never grow past 1280x720 on bigger ones. */
+  max-width: 1280px;
+  max-height: 720px;
+}

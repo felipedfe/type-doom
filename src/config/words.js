@@ -1,14 +1,3 @@
-// export const words = [
-//   "qq",
-// ]
-
-// export const words = [
-//   // "q",
-//   "smile",
-//   "panda",
-//   // "w",
-// ]
-
 export const words = [
   "banana",
   // "toaster",
@@ -64,7 +53,7 @@ export const words = [
   // "pulse",
   // "neurocircuit",
   // "spellcaster",
-  // "configuration",  
+  // "configuration",
   // "neuralink",
   "neurofeed",
   "unicorn",

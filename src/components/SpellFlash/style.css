@@ -1,9 +1,0 @@
-/* Cobre a viewport inteira; acima do jogo, abaixo do cursor de sistema */
-.spellFlash {
-  position: fixed;
-  inset: 0;
-  z-index: 80;
-  pointer-events: none;
-  background: var(--orange);
-  mix-blend-mode: screen;
-}
