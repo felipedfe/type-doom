@@ -3,6 +3,7 @@ import { monster1Def } from './monsterDefs/monster1'
 import { monster2Def } from './monsterDefs/monster2'
 import { monster3Def } from './monsterDefs/monster3'
 
+// "Def" = definition: visual assembly config for the monster (parts, baseSize, idle)
 const DEFS = [monster1Def, monster2Def, monster3Def]
 export const MONSTER_COUNT = DEFS.length
 

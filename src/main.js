@@ -5,6 +5,7 @@ import { PreloaderScene } from './scenes/PreloaderScene'
 import { BackgroundScene } from './scenes/BackgroundScene'
 import { PlayScene } from './scenes/PlayScene'
 import { GameOverScene } from './scenes/GameOverScene'
+import { MonsterLabScene } from './scenes/MonsterLabScene'
 
 new Phaser.Game({
   type: Phaser.AUTO,
@@ -16,5 +17,5 @@ new Phaser.Game({
     width: GAME_WIDTH,
     height: GAME_HEIGHT,
   },
-  scene: [PreloaderScene, BackgroundScene, PlayScene, GameOverScene],
+  scene: [PreloaderScene, BackgroundScene, PlayScene, GameOverScene, MonsterLabScene],
 })

@@ -8,10 +8,22 @@ import { WordFlash } from '../entities/WordFlash'
 import { ComboOverlay } from '../entities/ComboOverlay'
 import { words } from '../config/words'
 import {
-  APPROACH_SCALE_FROM, APPROACH_SCALE_TO, APPROACH_Y_FROM, APPROACH_Y_TO,
-  CASTING_MS, COMBO_SIZE, GAME_HEIGHT, GAME_WIDTH, MISTAKE_FLASH_MS,
-  SCORE_COMBO_WORD, SCORE_WORD, SPEED_COMBO_DECREMENT, SPEED_INCREMENT,
-  SPEED_INITIAL, SPEED_MAX, WORD_FLASH_IMAGE_KEYS,
+  APPROACH_SCALE_FROM,
+  APPROACH_SCALE_TO,
+  APPROACH_Y_FROM,
+  APPROACH_Y_TO,
+  CASTING_MS,
+  COMBO_SIZE,
+  GAME_HEIGHT,
+  GAME_WIDTH,
+  MISTAKE_FLASH_MS,
+  SCORE_COMBO_WORD,
+  SCORE_WORD,
+  SPEED_COMBO_DECREMENT,
+  SPEED_INCREMENT,
+  SPEED_INITIAL,
+  SPEED_MAX,
+  WORD_FLASH_IMAGE_KEYS,
 } from '../config/constants'
 
 export class PlayScene extends Phaser.Scene {
@@ -136,7 +148,6 @@ export class PlayScene extends Phaser.Scene {
     this.monster.destroy()
     this.round += 1
     this.hud.setRound(this.round)
-    this.speed = Math.min(this.speed + SPEED_INCREMENT, SPEED_MAX)
     this.monsterIndex = (this.monsterIndex + 1) % MONSTER_COUNT
     this.spawnMonster()
 
