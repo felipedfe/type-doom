@@ -36,8 +36,8 @@ export const SCORE_WORD = 160
 export const SCORE_COMBO_WORD = 320
 
 // monster column approach (0 -> 1) drives these ranges
-export const APPROACH_Y_FROM = 40
-export const APPROACH_Y_TO = 180
+export const APPROACH_Y_FROM = 0
+export const APPROACH_Y_TO =20
 export const APPROACH_SCALE_FROM = 0.85
 export const APPROACH_SCALE_TO = 1.8
 

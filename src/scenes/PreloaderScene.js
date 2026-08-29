@@ -20,6 +20,9 @@ import m3CabecaEBoca from '../assets/monster-3/parts/cabeca-e-boca.png'
 import m3Olho from '../assets/monster-3/parts/olho.png'
 import m3Pupila from '../assets/monster-3/parts/pupila.png'
 import m3Bochecha from '../assets/monster-3/parts/bochecha.png'
+import m3DenteEsq from '../assets/monster-3/parts/dente-esq.png'
+import m3DenteDir from '../assets/monster-3/parts/dente-dir.png'
+import m3MascaraDentes from '../assets/monster-3/parts/mascara-dentes.png'
 
 import wizardBraco from '../assets/wizard-bw/parts/braco.png'
 import wizardMaoVarinha from '../assets/wizard-bw/parts/mao-e-varinha.png'
@@ -55,6 +58,9 @@ export class PreloaderScene extends Phaser.Scene {
     this.load.image('m3-olho', m3Olho)
     this.load.image('m3-pupila', m3Pupila)
     this.load.image('m3-bochecha', m3Bochecha)
+    this.load.image('m3-dente-esq', m3DenteEsq)
+    this.load.image('m3-dente-dir', m3DenteDir)
+    this.load.image('m3-mascara-dentes', m3MascaraDentes)
 
     this.load.image('wizard-braco', wizardBraco)
     this.load.image('wizard-mao-varinha', wizardMaoVarinha)

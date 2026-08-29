@@ -53,7 +53,7 @@ export class PlayScene extends Phaser.Scene {
 
     this.monsterColumn = this.add.container(GAME_WIDTH / 2, GAME_HEIGHT * 0.05)
     this.spellWord = new SpellWord(this)
-    this.spellWord.container.setPosition(0, -20)
+    this.spellWord.container.setPosition(0, 20)
     this.monsterColumn.add(this.spellWord.container)
 
     this.wizard = new WizardHands(this)
