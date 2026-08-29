@@ -9,6 +9,7 @@ export class WordFlash {
     this.image = scene.add.image(GAME_WIDTH / 2, GAME_HEIGHT / 2, '__DEFAULT')
     this.image.setAlpha(0)
     this.image.setVisible(false)
+    this.image.setDepth(1000)
   }
 
   play(textureKey) {

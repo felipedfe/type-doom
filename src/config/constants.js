@@ -18,22 +18,19 @@ export const COLOR_STRINGS = {
 
 // difficulty ramp
 export const SPEED_INITIAL = 0.09
-export const SPEED_INCREMENT = 0.012
+// export const SPEED_INCREMENT = 0.012
+export const SPEED_INCREMENT = 0.009
 export const SPEED_MAX = 0.32
-export const SPEED_COMBO_DECREMENT = 0.024
-export const COMBO_SIZE = 5
 
 // timing (ms)
 export const MISTAKE_FLASH_MS = 220
 export const CASTING_MS = 520
-export const COMBO_OVERLAY_MS = 1600
 export const WORD_FLASH_MS = 300
 export const WORD_FLASH_IMAGE_MS = 180
 export const SPELL_FLASH_MS = 550
 
 // scoring
 export const SCORE_WORD = 160
-export const SCORE_COMBO_WORD = 320
 
 // monster column approach (0 -> 1) drives these ranges
 export const APPROACH_Y_FROM = 0
