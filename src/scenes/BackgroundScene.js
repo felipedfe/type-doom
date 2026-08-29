@@ -13,7 +13,6 @@ export class BackgroundScene extends Phaser.Scene {
     this.bgVideo = this.add.video(GAME_WIDTH / 2, GAME_HEIGHT / 2, 'bg-video')
     this.bgVideo.setMute(true)
     this.bgVideo.play(true)
-    this.bgVideoFitted = false
 
     this.horizon = this.add.graphics()
     this.horizon.lineStyle(2, 0xffffff, 1)
@@ -39,9 +38,6 @@ export class BackgroundScene extends Phaser.Scene {
   }
 
   update() {
-    if (!this.bgVideoFitted) {
-      this.fitBackgroundVideo()
-      if (this.bgVideo?.video?.videoWidth) this.bgVideoFitted = true
-    }
+    this.fitBackgroundVideo()
   }
 }
