@@ -37,6 +37,9 @@ export class PlayScene extends Phaser.Scene {
     this.monsterIndex = 0
     this.approachTween = null
 
+    this.sound.stopByKey('bg-music')
+    this.sound.play('bg-music', { loop: true, volume: 0.35 })
+
     this.hud = new Hud(this)
     this.hud.setRound(this.round)
     this.hud.setScore(this.score)
@@ -89,6 +92,7 @@ export class PlayScene extends Phaser.Scene {
     if (!nextChar) return
 
     if (key.toLowerCase() === nextChar.toLowerCase()) {
+      this.sound.play('key-type', { volume: 0.4 })
       this.typedCount += 1
       this.mistakeIndex = -1
       this.spellWord.setTypedCount(this.typedCount, -1)
@@ -114,6 +118,7 @@ export class PlayScene extends Phaser.Scene {
     this.score += SCORE_WORD
     this.hud.setScore(this.score)
 
+    this.sound.play('magic', { volume: 0.5 })
     this.spellFlash.play()
     this.wizard.playCast()
     this.monster.playDeath()

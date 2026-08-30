@@ -31,6 +31,9 @@ import smileImg from '../assets/smile.png'
 import pandaImg from '../assets/panda.png'
 
 import bgVideo from '../assets/fundo5-low.mp4'
+import bgMusic from '../assets/type-doom.wav'
+import magicSfx from '../assets/magic-2.mp3'
+import typeSfx from '../assets/type-2.mp3'
 
 export class PreloaderScene extends Phaser.Scene {
   constructor() {
@@ -69,6 +72,9 @@ export class PreloaderScene extends Phaser.Scene {
     this.load.image('wordflash-panda', pandaImg)
 
     this.load.video('bg-video', bgVideo, true)
+    this.load.audio('bg-music', bgMusic)
+    this.load.audio('magic', magicSfx)
+    this.load.audio('key-type', typeSfx)
   }
 
   create() {

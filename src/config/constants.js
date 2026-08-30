@@ -19,7 +19,7 @@ export const COLOR_STRINGS = {
 // difficulty ramp
 export const SPEED_INITIAL = 0.09
 // export const SPEED_INCREMENT = 0.012
-export const SPEED_INCREMENT = 0.009
+export const SPEED_INCREMENT = 0.010
 export const SPEED_MAX = 0.32
 
 // timing (ms)
