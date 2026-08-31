@@ -1,5 +1,5 @@
 import Phaser from 'phaser'
-import { COLORS, GAME_HEIGHT, GAME_WIDTH } from '../config/constants'
+import { GAME_HEIGHT, GAME_WIDTH } from '../config/constants'
 
 // Lives for the whole session and is never restarted, so the background
 // video only ever gets created once — PlayScene.restart() (on game-over ->
@@ -10,11 +10,9 @@ export class BackgroundScene extends Phaser.Scene {
   }
 
   create() {
-    // TEMP: video disabled to test whether it causes the stutter — swapped for a flat fill.
-    // this.bgVideo = this.add.video(GAME_WIDTH / 2, GAME_HEIGHT / 2, 'bg-video')
-    // this.bgVideo.setMute(true)
-    // this.bgVideo.play(true)
-    this.bgVideo = this.add.rectangle(GAME_WIDTH / 2, GAME_HEIGHT / 2, GAME_WIDTH, GAME_HEIGHT, COLORS.gray)
+    this.bgVideo = this.add.video(GAME_WIDTH / 2, GAME_HEIGHT / 2, 'bg-video')
+    this.bgVideo.setMute(true)
+    this.bgVideo.play(true)
 
     this.horizon = this.add.graphics()
     this.horizon.lineStyle(2, 0xffffff, 1)
@@ -33,7 +31,6 @@ export class BackgroundScene extends Phaser.Scene {
   // stale base size. Recomputing every frame off the raw <video> element's
   // own dimensions is cheap and self-correcting regardless of that timing.
   fitBackgroundVideo() {
-    // TEMP: no-op while video is disabled.
     const el = this.bgVideo?.video
     if (!el || !el.videoWidth || !el.videoHeight) return
     const scale = Math.max(GAME_WIDTH / el.videoWidth, GAME_HEIGHT / el.videoHeight)
