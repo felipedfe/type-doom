@@ -1,5 +1,7 @@
 import Phaser from 'phaser'
 
+import { GAME_WIDTH, GAME_HEIGHT } from '../config/constants'
+
 import m1Cabeca from '../assets/monster-1/parts/cabeca.png'
 import m1Chifre from '../assets/monster-1/parts/chifre.png'
 import m1Olhos from '../assets/monster-1/parts/olhos.png'
@@ -41,6 +43,8 @@ export class PreloaderScene extends Phaser.Scene {
   }
 
   preload() {
+    this.createLoadingBar()
+
     this.load.image('m1-cabeca', m1Cabeca)
     this.load.image('m1-chifre', m1Chifre)
     this.load.image('m1-olhos', m1Olhos)
@@ -80,5 +84,46 @@ export class PreloaderScene extends Phaser.Scene {
   create() {
     const params = new URLSearchParams(window.location.search)
     this.scene.start(params.has('monsterlab') ? 'MonsterLab' : 'Background')
+  }
+
+  createLoadingBar() {
+    const centerX = GAME_WIDTH / 2
+    const centerY = GAME_HEIGHT / 2
+    const barWidth = 420
+    const barHeight = 4
+
+    const label = this.add.text(centerX, centerY - 30, 'LOADING', {
+      fontFamily: 'system-ui, -apple-system, Segoe UI, Roboto, sans-serif',
+      fontSize: '14px',
+      fontStyle: '700',
+      color: '#ffffff',
+      letterSpacing: 4,
+    }).setOrigin(0.5)
+
+    const percentText = this.add.text(centerX, centerY + 20, '0%', {
+      fontFamily: 'system-ui, -apple-system, Segoe UI, Roboto, sans-serif',
+      fontSize: '12px',
+      color: '#888888',
+    }).setOrigin(0.5)
+
+    const track = this.add.graphics()
+    track.lineStyle(1, 0xffffff, 0.3)
+    track.strokeRect(centerX - barWidth / 2, centerY - barHeight / 2, barWidth, barHeight)
+
+    const bar = this.add.graphics()
+
+    this.load.on('progress', (value) => {
+      bar.clear()
+      bar.fillStyle(0xffffff, 1)
+      bar.fillRect(centerX - barWidth / 2, centerY - barHeight / 2, barWidth * value, barHeight)
+      percentText.setText(`${Math.round(value * 100)}%`)
+    })
+
+    this.load.on('complete', () => {
+      label.destroy()
+      percentText.destroy()
+      track.destroy()
+      bar.destroy()
+    })
   }
 }
