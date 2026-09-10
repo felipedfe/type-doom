@@ -1,4 +1,4 @@
-# Monster Type Game
+# Type Doom Game
 
 A small typing game built with [Phaser 3](https://phaser.io) and Vite. You type a magic word before the monster reaches you.
 
