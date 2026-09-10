@@ -1,9 +1,11 @@
 import { keyframeTween } from '../anim/keyframeTween'
 import { COLOR_STRINGS } from '../config/constants'
 
-const FONT_FAMILY = 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace'
-const FONT_SIZE = 24
-const LETTER_SPACING = FONT_SIZE * 0.08
+const FONT_FAMILY = "'Press Start 2P', monospace"
+const FONT_SIZE = 18
+// const LETTER_SPACING = FONT_SIZE * 0.08
+const LETTER_SPACING = FONT_SIZE * 0.2
+const STRETCH_Y = 1.5
 const PAD_X = 12
 const PAD_Y = 4
 
@@ -17,7 +19,7 @@ export class SpellWord {
 
     const probe = scene.add.text(0, 0, 'M', { fontFamily: FONT_FAMILY, fontSize: `${FONT_SIZE}px` })
     this.charAdvance = probe.width + LETTER_SPACING
-    this.charHeight = probe.height
+    this.charHeight = probe.height * STRETCH_Y
     probe.destroy()
   }
 
@@ -34,6 +36,7 @@ export class SpellWord {
         fontSize: `${FONT_SIZE}px`,
       })
       text.setOrigin(0.5, 0.5)
+      text.setScale(1, STRETCH_Y)
       text.setColor('#ffffff')
       text.setAlpha(0.9)
       this.container.add(text)
@@ -45,8 +48,8 @@ export class SpellWord {
     this.box.lineStyle(1, 0xffffff, 1)
     const boxW = totalWidth + PAD_X * 2
     const boxH = this.charHeight + PAD_Y * 2
-    this.box.fillRoundedRect(-boxW / 2, -boxH / 2, boxW, boxH, 10)
-    this.box.strokeRoundedRect(-boxW / 2, -boxH / 2, boxW, boxH, 10)
+    this.box.fillRect(-boxW / 2, -boxH / 2, boxW, boxH, 10)
+    // this.box.strokeRect(-boxW / 2, -boxH / 2, boxW, boxH, 10)
   }
 
   setTypedCount(typedCount, mistakeIndex) {

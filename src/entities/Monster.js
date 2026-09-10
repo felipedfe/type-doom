@@ -13,6 +13,7 @@ export class Monster {
     this.def = DEFS[monsterIndex % DEFS.length]
     this.container = scene.add.container(0, 0)
     this.refs = {}
+    this.baseTransforms = {}
     this.idleTweens = []
 
     for (const part of this.def.parts) {
@@ -28,15 +29,35 @@ export class Monster {
       if (part.angle) img.setAngle(part.angle)
       this.container.add(img)
       this.refs[part.name] = img
+      this.baseTransforms[part.name] = { x: img.x, y: img.y, angle: img.angle, scaleX: img.scaleX, scaleY: img.scaleY }
     }
 
     this.idleTweens = this.def.idle ? this.def.idle(scene, this.refs) : []
+  }
+
+  // idle() helpers (mirrorSlide, keyframeTween's additive x/y/angle) derive
+  // their animation range from the part's *current* transform at call time.
+  // deactivate() only stops tweens — it doesn't rewind whatever position/
+  // angle they were stopped mid-flight at — so without this, calling idle()
+  // again on a pooled/reused monster re-bases the animation off that drifted
+  // value instead of the def's static pose, and it creeps further every
+  // reactivation (most visible on monster2's eyes, whose mirrorSlide range is
+  // wide enough to notice).
+  resetPartsToBase() {
+    for (const name of Object.keys(this.refs)) {
+      const img = this.refs[name]
+      const base = this.baseTransforms[name]
+      img.setPosition(base.x, base.y)
+      img.setAngle(base.angle)
+      img.setScale(base.scaleX, base.scaleY)
+    }
   }
 
   activate() {
     this.container.setScale(1)
     this.container.setAlpha(1)
     this.container.setVisible(true)
+    this.resetPartsToBase()
     this.idleTweens = this.def.idle ? this.def.idle(this.scene, this.refs) : []
   }
 
