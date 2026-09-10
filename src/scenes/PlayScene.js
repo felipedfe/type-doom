@@ -49,13 +49,14 @@ export class PlayScene extends Phaser.Scene {
     this.wordFlash = new WordFlash(this)
 
     this.monsterColumn = this.add.container(GAME_WIDTH / 2, GAME_HEIGHT * 0.05)
+    this.monsterPool = new MonsterPool(this, this.monsterColumn)
+
     this.spellWord = new SpellWord(this)
     this.spellWord.container.setPosition(0, 20)
     this.monsterColumn.add(this.spellWord.container)
 
     this.wizard = new WizardHands(this)
 
-    this.monsterPool = new MonsterPool(this, this.monsterColumn)
     this.monster = null
     this.spawnMonster()
     this.setWord(Phaser.Math.Between(0, words.length - 1))
