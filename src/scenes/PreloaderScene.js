@@ -32,6 +32,15 @@ import wizardMaoVarinha from '../assets/wizard-bw/parts/mao-e-varinha.png'
 import smileImg from '../assets/smile.png'
 import pandaImg from '../assets/panda.png'
 
+import titleT from '../assets/title/t.png'
+import titleY from '../assets/title/y.png'
+import titleP from '../assets/title/p.png'
+import titleE from '../assets/title/e.png'
+import titleD from '../assets/title/d.png'
+import titleO1 from '../assets/title/o_1.png'
+import titleO2 from '../assets/title/o_2.png'
+import titleM from '../assets/title/m.png'
+
 import bgVideo from '../assets/fundo5-low.mp4'
 import fireVideo from '../assets/fire_grain_1.mp4'
 import bgMusic from '../assets/type-doom.wav'
@@ -75,6 +84,15 @@ export class PreloaderScene extends Phaser.Scene {
 
     this.load.image('wordflash-smile', smileImg)
     this.load.image('wordflash-panda', pandaImg)
+
+    this.load.image('title-t', titleT)
+    this.load.image('title-y', titleY)
+    this.load.image('title-p', titleP)
+    this.load.image('title-e', titleE)
+    this.load.image('title-d', titleD)
+    this.load.image('title-o1', titleO1)
+    this.load.image('title-o2', titleO2)
+    this.load.image('title-m', titleM)
 
     this.load.video('bg-video', bgVideo, true)
     this.load.video('fire-video', fireVideo, true)

@@ -9,9 +9,17 @@ const BLINK_MS = 500
 // overflow off the bottom.
 const FIRE_Y_OFFSET = 0
 
-// V1 of the title screen: no logo yet (still being drawn), just the fire
-// backdrop and an arcade-style blinking prompt. Swap in the logo image once
-// it's ready.
+// Hand-drawn letter art is baseline-uniform (~355-395px tall in source),
+// so every letter is scaled to this same target height and laid out
+// left-to-right — no per-letter y tweaking needed.
+const TITLE_LETTER_HEIGHT = 300
+const TITLE_ROW_TYPE_Y = 190
+const TITLE_ROW_DOOM_Y = 530
+// Per-pair horizontal gaps (px, at TITLE_LETTER_HEIGHT scale) tuned to match
+// type-doom-mock.png: TYPE's strokes crowd/overlap, DOOM's are spaced out.
+const TITLE_ROW_TYPE_GAPS = [-10, 0, 2]
+const TITLE_ROW_DOOM_GAPS = [22, 35, 22]
+
 export class OpeningScene extends Phaser.Scene {
   constructor() {
     super('Opening')
@@ -29,8 +37,11 @@ export class OpeningScene extends Phaser.Scene {
     this.fireVideo.setBlendMode(Phaser.BlendModes.ADD)
     this.fireVideo.play(true)
 
+    this.buildTitleRow(['title-t', 'title-y', 'title-p', 'title-e'], TITLE_ROW_TYPE_GAPS, TITLE_ROW_TYPE_Y)
+    this.buildTitleRow(['title-d', 'title-o1', 'title-o2', 'title-m'], TITLE_ROW_DOOM_GAPS, TITLE_ROW_DOOM_Y)
+
     this.promptText = this.add
-      .text(GAME_WIDTH / 2, GAME_HEIGHT * 0.85, 'PRESS ENTER TO START', {
+      .text(GAME_WIDTH / 2, (TITLE_ROW_TYPE_Y + TITLE_ROW_DOOM_Y) / 2, 'PRESS ENTER TO START', {
         fontFamily: ARCADE_FONT,
         fontSize: '30px',
         color: '#ffffff',
@@ -47,6 +58,24 @@ export class OpeningScene extends Phaser.Scene {
     this.input.keyboard.once('keydown-ENTER', () => {
       this.scene.stop()
       this.scene.start('Background')
+    })
+  }
+
+  // Lays out `keys` left-to-right at a shared height, using `gaps[i]` as the
+  // space between letter i and i+1, then centers the whole row on rowY.
+  buildTitleRow(keys, gaps, rowY) {
+    const widths = keys.map((key) => {
+      const src = this.textures.get(key).getSourceImage()
+      return (src.width / src.height) * TITLE_LETTER_HEIGHT
+    })
+    const totalWidth = widths.reduce((sum, w) => sum + w, 0) + gaps.reduce((sum, g) => sum + g, 0)
+
+    let cursor = GAME_WIDTH / 2 - totalWidth / 2
+    keys.forEach((key, i) => {
+      this.add
+        .image(cursor + widths[i] / 2, rowY, key)
+        .setDisplaySize(widths[i], TITLE_LETTER_HEIGHT)
+      cursor += widths[i] + (gaps[i] ?? 0)
     })
   }
 
