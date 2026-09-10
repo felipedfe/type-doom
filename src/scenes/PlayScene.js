@@ -1,5 +1,6 @@
 import Phaser from 'phaser'
-import { Monster, MONSTER_COUNT } from '../entities/Monster'
+import { MONSTER_COUNT } from '../entities/Monster'
+import { MonsterPool } from '../entities/MonsterPool'
 import { WizardHands } from '../entities/WizardHands'
 import { SpellWord } from '../entities/SpellWord'
 import { Hud } from '../entities/Hud'
@@ -54,6 +55,7 @@ export class PlayScene extends Phaser.Scene {
 
     this.wizard = new WizardHands(this)
 
+    this.monsterPool = new MonsterPool(this, this.monsterColumn)
     this.monster = null
     this.spawnMonster()
     this.setWord(Phaser.Math.Between(0, words.length - 1))
@@ -67,9 +69,8 @@ export class PlayScene extends Phaser.Scene {
   }
 
   spawnMonster() {
-    this.monster = new Monster(this, this.monsterIndex)
+    this.monster = this.monsterPool.activate(this.monsterIndex)
     this.monster.container.setPosition(-this.monster.def.baseSize / 2, 20)
-    this.monsterColumn.add(this.monster.container)
   }
 
   setWord(index) {
@@ -130,7 +131,7 @@ export class PlayScene extends Phaser.Scene {
   }
 
   nextRound() {
-    this.monster.destroy()
+    this.monster.deactivate()
     this.round += 1
     this.hud.setRound(this.round)
     this.speed = Math.min(this.speed + SPEED_INCREMENT, SPEED_MAX)

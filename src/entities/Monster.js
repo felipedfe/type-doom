@@ -33,6 +33,19 @@ export class Monster {
     this.idleTweens = this.def.idle ? this.def.idle(scene, this.refs) : []
   }
 
+  activate() {
+    this.container.setScale(1)
+    this.container.setAlpha(1)
+    this.container.setVisible(true)
+    this.idleTweens = this.def.idle ? this.def.idle(this.scene, this.refs) : []
+  }
+
+  deactivate() {
+    for (const tween of this.idleTweens) tween.stop()
+    this.idleTweens = []
+    this.container.setVisible(false)
+  }
+
   playDeath(onComplete) {
     for (const tween of this.idleTweens) tween.stop()
     keyframeTween(this.scene, {
