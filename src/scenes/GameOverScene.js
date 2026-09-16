@@ -41,8 +41,8 @@ export class GameOverScene extends Phaser.Scene {
       fontFamily: FONT, fontSize: '13px', color: '#ffffff',
     }).setOrigin(0.5).setAlpha(0.45)
 
-    const whisperText = this.add.text(cx, cy + 68, whisper, {
-      fontFamily: FONT, fontSize: '12px', fontStyle: 'italic', color: '#ffffff',
+    const whisperText = this.add.text(cx, cy + 88, whisper, {
+      fontFamily: FONT, fontSize: '16px', fontStyle: 'italic', color: '#ffffff',
     }).setOrigin(0.5).setAlpha(0)
     this.tweens.add({ targets: whisperText, alpha: 0.45, delay: 1200, duration: 1400, ease: 'Sine.easeIn' })
 
