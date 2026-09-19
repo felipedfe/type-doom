@@ -51,3 +51,10 @@ export const WORD_FLASH_IMAGE_KEYS = {
   smile: 'wordflash-smile',
   panda: 'wordflash-panda',
 }
+
+export const ARCADE_FONT = "'Press Start 2P', monospace"
+
+export const HIGHSCORE_LIST_SIZE = 5
+export const HIGHSCORE_NAME_MAX_LEN = 8
+export const HIGHSCORE_IDLE_MS = 4000
+export const OPENING_IDLE_MS = 8000

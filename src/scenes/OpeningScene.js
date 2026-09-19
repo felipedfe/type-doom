@@ -1,8 +1,8 @@
 import Phaser from 'phaser'
 import { keyframeTween } from '../anim/keyframeTween'
-import { COLORS, GAME_HEIGHT, GAME_WIDTH } from '../config/constants'
+import { layoutTitleRow } from '../entities/titleLayout'
+import { ARCADE_FONT, COLORS, GAME_HEIGHT, GAME_WIDTH, OPENING_IDLE_MS } from '../config/constants'
 
-const ARCADE_FONT = "'Press Start 2P', monospace"
 const BLINK_MS = 500
 // Video's own aspect ratio matches the canvas exactly, so cover-fit fills
 // it with zero slack — this offset shifts the video down, leaving a gap
@@ -10,10 +10,6 @@ const BLINK_MS = 500
 // overflow off the bottom.
 const FIRE_Y_OFFSET = 0
 
-// Hand-drawn letter art is baseline-uniform (~355-395px tall in source),
-// so every letter is scaled to this same target height and laid out
-// left-to-right — no per-letter y tweaking needed.
-const TITLE_LETTER_HEIGHT = 300
 const TITLE_ROW_TYPE_Y = 190
 const TITLE_ROW_DOOM_Y = 530
 // Per-pair horizontal gaps (px, at TITLE_LETTER_HEIGHT scale) tuned to match
@@ -50,13 +46,15 @@ export class OpeningScene extends Phaser.Scene {
     this.fireVideo.setVisible(false)
     this.fireVideo.play(true)
 
-    const typeLetters = this.buildTitleRow(
+    const typeLetters = layoutTitleRow(
+      this,
       ['title-t', 'title-y', 'title-p', 'title-e'],
       TITLE_ROW_TYPE_GAPS,
       TITLE_ROW_TYPE_Y,
       -TITLE_ENTRY_OFFSET,
     )
-    const doomLetters = this.buildTitleRow(
+    const doomLetters = layoutTitleRow(
+      this,
       ['title-d', 'title-o1', 'title-o2', 'title-m'],
       TITLE_ROW_DOOM_GAPS,
       TITLE_ROW_DOOM_Y,
@@ -78,30 +76,9 @@ export class OpeningScene extends Phaser.Scene {
     this.playTitleIntro(typeLetters, doomLetters)
 
     this.input.keyboard.once('keydown-ENTER', () => {
+      this.idleTimer?.remove()
       this.scene.stop()
       this.scene.start('Background')
-    })
-  }
-
-  // Lays out `keys` left-to-right at a shared height, using `gaps[i]` as the
-  // space between letter i and i+1, then centers the whole row on rowY.
-  // `entryOffset` is signed: negative starts the row above rowY (falling
-  // down into place), positive starts it below (rising up into place).
-  // Returns each letter's image + its resting Y, for playTitleIntro.
-  buildTitleRow(keys, gaps, rowY, entryOffset) {
-    const widths = keys.map((key) => {
-      const src = this.textures.get(key).getSourceImage()
-      return (src.width / src.height) * TITLE_LETTER_HEIGHT
-    })
-    const totalWidth = widths.reduce((sum, w) => sum + w, 0) + gaps.reduce((sum, g) => sum + g, 0)
-
-    let cursor = GAME_WIDTH / 2 - totalWidth / 2
-    return keys.map((key, i) => {
-      const img = this.add
-        .image(cursor + widths[i] / 2, rowY + entryOffset, key)
-        .setDisplaySize(widths[i], TITLE_LETTER_HEIGHT)
-      cursor += widths[i] + (gaps[i] ?? 0)
-      return { img, restY: rowY }
     })
   }
 
@@ -154,6 +131,11 @@ export class OpeningScene extends Phaser.Scene {
       delay: BLINK_MS,
       loop: true,
       callback: () => this.promptText.setVisible(!this.promptText.visible),
+    })
+
+    this.idleTimer = this.time.delayedCall(OPENING_IDLE_MS, () => {
+      this.scene.stop()
+      this.scene.start('Highscore')
     })
   }
 
