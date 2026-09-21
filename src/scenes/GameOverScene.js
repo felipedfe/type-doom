@@ -1,6 +1,13 @@
 import Phaser from 'phaser'
 import { GAME_OVER_WHISPERS } from '../config/whispers'
-import { ARCADE_FONT, GAME_HEIGHT, GAME_WIDTH, HIGHSCORE_LIST_SIZE, HIGHSCORE_NAME_MAX_LEN } from '../config/constants'
+import {
+  ARCADE_FONT,
+  GAME_HEIGHT,
+  GAME_WIDTH,
+  GAMEOVER_IDLE_MS,
+  HIGHSCORE_LIST_SIZE,
+  HIGHSCORE_NAME_MAX_LEN,
+} from '../config/constants'
 import { getTopScores, submitScore } from '../services/highscoreService'
 
 const FONT = 'system-ui, -apple-system, Segoe UI, Roboto, sans-serif'
@@ -44,11 +51,25 @@ export class GameOverScene extends Phaser.Scene {
       topScores.length < HIGHSCORE_LIST_SIZE || this.score > Math.min(...topScores.map((entry) => entry.score))
 
     if (qualifies) {
-      this.startNameEntry(whisper)
+      this.startNameEntry()
     } else {
       this.drawRestartPrompt(whisper)
       this.bindRestartKey()
+      this.armIdleReturn()
     }
+  }
+
+  // Background and Play are only ever restarted via Opening/Highscore's Enter,
+  // so leaving the game means stopping both plus the looping game music.
+  leaveGameTo(sceneKey) {
+    this.sound.stopByKey('bg-music')
+    this.scene.stop('Play')
+    this.scene.stop('Background')
+    this.scene.start(sceneKey)
+  }
+
+  armIdleReturn() {
+    this.idleTimer = this.time.delayedCall(GAMEOVER_IDLE_MS, () => this.leaveGameTo('Opening'))
   }
 
   drawRestartPrompt(whisper) {
@@ -64,16 +85,16 @@ export class GameOverScene extends Phaser.Scene {
 
   bindRestartKey() {
     this.input.keyboard.once('keydown-ENTER', () => {
+      this.idleTimer?.remove()
       this.scene.stop()
       this.scene.get('Play').scene.restart()
     })
   }
 
-  startNameEntry(whisper) {
+  startNameEntry() {
     this.enteredName = ''
-    this.pendingWhisper = whisper
 
-    this.newRecordLabel = this.add.text(this.cx, this.cy + 40, 'NEW RECORD! ENTER YOUR NAME', {
+    this.add.text(this.cx, this.cy + 40, 'NEW RECORD! ENTER YOUR NAME', {
       fontFamily: ARCADE_FONT, fontSize: '14px', color: '#ffffff', letterSpacing: 2,
     }).setOrigin(0.5)
 
@@ -111,9 +132,6 @@ export class GameOverScene extends Phaser.Scene {
   async submitNewRecord() {
     this.input.keyboard.off('keydown', this.nameEntryKeyHandler)
     await submitScore(this.enteredName, this.score)
-    this.newRecordLabel.destroy()
-    this.nameText.destroy()
-    this.drawRestartPrompt(this.pendingWhisper)
-    this.bindRestartKey()
+    this.leaveGameTo('Highscore')
   }
 }
